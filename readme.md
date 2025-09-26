@@ -2,10 +2,6 @@
 
 A React-based tool for fine-tuning synchronized text and audio in EPUB files (aka "TalkingBooks").
 
-- **Play/Pause**: Click the play button or press **Spacebar** to toggle audio playback
-- **Next/Previous**: Navigate between audio fragments with the arrow buttons
-- **Red timer icon "Apply Timer Offset"**: Located in the bottom waveform viewer panel, allows you to shift all fragments by desired time intervals to correct timing offsets across the entire chapter.ing synchronized text and audio in EPUB files (aka "TalkingBooks").
-
 ## What This Is
 
 I built epub-moe because I needed surgical precision when creating German language learning books with synchronized audio. Existing tools like [Storyteller](https://gitlab.com/storyteller-platform/storyteller) are excellent for initial auto-synchronization, but sometimes you need more granual control, especially for educational content where precise timing matters.
@@ -39,7 +35,7 @@ My name is André Klein. I'm an independent publisher of German learning materia
 
 ## Compatibility & Requirements
 
-Epub-moe has been tested with "TalkingBooks" that Storyteller Version 1.3.6 generates.
+Epub-moe has been tested with "TalkingBooks" that Storyteller Version 1.3.6 generates. I've also tested it with EPUB exports from other tools like Tobi.
 
 
 > [!IMPORTANT]
@@ -72,6 +68,9 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Waveform Controls
 
+- **Play/Pause**: Click the play button or press **Spacebar** to toggle audio playback
+- **Next/Previous**: Navigate between audio fragments with the arrow buttons
+- **Red timer icon "Apply Timer Offset"**: Located in the bottom waveform viewer panel, allows you to shift all fragments by desired time intervals to correct timing offsets across the entire chapter.ing synchronized text and audio in EPUB files (aka "TalkingBooks").
 - **Red timer icon "Apply Timer Offset"**: Located in the bottom waveform viewer panel, allows you to shift all fragments by desired time intervals to correct timing offsets across the entire chapter.
 
 ## Screenshots
