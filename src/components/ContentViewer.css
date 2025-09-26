@@ -1,0 +1,6 @@
+/* Hide all images and vocab sections in the content viewer */
+.content-viewer img, .content-viewer .vocabulary {
+  display: none !important;
+}
+
+
