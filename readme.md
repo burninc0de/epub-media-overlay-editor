@@ -88,7 +88,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## Known Limitations
 
 - Built for my specific workflow - your mileage may vary
-- Minimal error handling (it works for my EPUBs, can't promise it'll work for yours)
+- Minimal error handling (it works for most EPUBs, can't promise it'll work for yours)
 - No undo functionality (export often!)
 - Single-user, local-only (no cloud features)
 
