@@ -64,7 +64,19 @@ export const useEPUBEditor = () => {
       if (fragmentIndex !== -1) {
         const updatedFragments = [...fragments];
         updatedFragments[fragmentIndex] = { ...updatedFragments[fragmentIndex], ...updates };
-        newSmilFiles.set(smilId, updatedFragments);
+        
+        // If timing was updated, recalculate order to maintain chronological order
+        if (updates.clipBegin !== undefined || updates.clipEnd !== undefined) {
+          const fragmentsWithCorrectOrder = updatedFragments
+            .sort((a, b) => a.clipBegin - b.clipBegin)
+            .map((frag, index) => ({
+              ...frag,
+              order: index
+            }));
+          newSmilFiles.set(smilId, fragmentsWithCorrectOrder);
+        } else {
+          newSmilFiles.set(smilId, updatedFragments);
+        }
         break;
       }
     }
@@ -86,7 +98,16 @@ export const useEPUBEditor = () => {
       const fragmentIndex = fragments.findIndex(f => f.id === fragmentId);
       if (fragmentIndex !== -1) {
         const updatedFragments = fragments.filter(f => f.id !== fragmentId);
-        newSmilFiles.set(smilId, updatedFragments);
+        
+        // Recalculate order values to maintain sequential order after deletion
+        const fragmentsWithCorrectOrder = updatedFragments
+          .sort((a, b) => a.clipBegin - b.clipBegin)
+          .map((frag, index) => ({
+            ...frag,
+            order: index
+          }));
+        
+        newSmilFiles.set(smilId, fragmentsWithCorrectOrder);
         break;
       }
     }
@@ -116,7 +137,7 @@ export const useEPUBEditor = () => {
           ...originalFragment,
           clipBegin: splitTime,
           id: `${originalFragment.id}_part2`,
-          order: originalFragment.order + 0.5
+          order: originalFragment.order + 0.1
         };
         
         const updatedFragments = [
@@ -126,7 +147,15 @@ export const useEPUBEditor = () => {
           ...fragments.slice(fragmentIndex + 1)
         ];
         
-        newSmilFiles.set(smilId, updatedFragments);
+        // Recalculate order values for all fragments to ensure chronological order
+        const fragmentsWithCorrectOrder = updatedFragments
+          .sort((a, b) => a.clipBegin - b.clipBegin)
+          .map((fragment, index) => ({
+            ...fragment,
+            order: index
+          }));
+        
+        newSmilFiles.set(smilId, fragmentsWithCorrectOrder);
         break;
       }
     }
@@ -277,7 +306,7 @@ export const useEPUBEditor = () => {
       text: text2,
       textSrc: `${originalFragment.textSrc.split('#')[0]}#${id2}`,
       clipBegin: splitTime,
-      order: originalFragment.order + 0.5, // Ensure correct ordering
+      order: originalFragment.order + 0.1, // Small increment to maintain order
     };
 
 
@@ -286,12 +315,24 @@ export const useEPUBEditor = () => {
 
       const newChapters = prevData.chapters.map(c => c.id === chapter.id ? { ...c, content: updatedContent } : c);
       const newSmilFiles = new Map(prevData.smilFiles);
-      newSmilFiles.set(smilFileId, [
+      
+      // Create new fragments array with proper ordering
+      const updatedFragments = [
         ...fragments.slice(0, fragmentIndex),
         firstFragment,
         secondFragment,
         ...fragments.slice(fragmentIndex + 1)
-      ]);
+      ];
+      
+      // Recalculate order values for all fragments after the split to ensure chronological order
+      const fragmentsWithCorrectOrder = updatedFragments
+        .sort((a, b) => a.clipBegin - b.clipBegin)
+        .map((fragment, index) => ({
+          ...fragment,
+          order: index
+        }));
+      
+      newSmilFiles.set(smilFileId, fragmentsWithCorrectOrder);
 
 
       return {
@@ -330,7 +371,15 @@ export const useEPUBEditor = () => {
           ...fragments.slice(fragmentIndex + 1)
         ];
         
-        newSmilFiles.set(smilId, updatedFragments);
+        // Recalculate order values to ensure chronological order
+        const fragmentsWithCorrectOrder = updatedFragments
+          .sort((a, b) => a.clipBegin - b.clipBegin)
+          .map((frag, index) => ({
+            ...frag,
+            order: index
+          }));
+        
+        newSmilFiles.set(smilId, fragmentsWithCorrectOrder);
         break;
       }
     }
@@ -368,12 +417,20 @@ export const useEPUBEditor = () => {
       return fragment;
     });
 
-    newSmilFiles.set(smilFileId, updatedFragments);
+    // Recalculate order values to maintain chronological order after time changes
+    const fragmentsWithCorrectOrder = updatedFragments
+      .sort((a, b) => a.clipBegin - b.clipBegin)
+      .map((frag, index) => ({
+        ...frag,
+        order: index
+      }));
+
+    newSmilFiles.set(smilFileId, fragmentsWithCorrectOrder);
     setEpubData({ ...epubData, smilFiles: newSmilFiles });
 
     // Update selected fragment if it was affected
     if (selectedFragment && selectedFragment.clipBegin >= fromTime) {
-      const updatedSelected = updatedFragments.find(f => f.id === selectedFragment.id);
+      const updatedSelected = fragmentsWithCorrectOrder.find(f => f.id === selectedFragment.id);
       if (updatedSelected) {
         setSelectedFragment(updatedSelected);
       }

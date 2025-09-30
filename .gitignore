@@ -25,3 +25,4 @@ dist-ssr
 .env
 launch.bat
 winlaunch.sh
+debugdump
