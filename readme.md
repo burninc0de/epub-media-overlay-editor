@@ -62,7 +62,12 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Toolbar Features
 
-- **Scissors icon**: When toggled, allows you to split text fragments at desired points. This will automatically split the corresponding audio for that fragment as well.
+- **Scissors icon (Cut Tool)**: Split text fragments at desired points with intelligent word-boundary snapping
+  - **Single click**: Activate/deactivate the cut tool
+  - **Double-click**: Toggle sticky mode (keeps tool active for multiple cuts)
+  - **Color states**: Gray (inactive), Blue (single-use), Orange (sticky mode)
+  - **Smart splitting**: Automatically snaps to nearest word boundary (spaces/hyphens) to prevent mid-word cuts
+  - When you split a text fragment, the corresponding audio is automatically split as well
 - **Display toggle**: Switch between line display (fragments appear as separate lines for easier parsing) and flow text (fragments flow naturally with text)
 - **Code icon**: Toggle HTML source editing mode for direct markup adjustments
 
